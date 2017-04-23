@@ -4,5 +4,6 @@ Rails.application.routes.draw do
 
 
   get '/about', to: 'homepage#about'
-   
+  get '/cookies', to: 'homepage#cookies'
+
 end

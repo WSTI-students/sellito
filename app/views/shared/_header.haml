@@ -2,10 +2,12 @@
   .container
     .navbar-header
       .navbar-brand
-        SELLITO
+        = link_to 'SELLITO', root_path
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.pull-right
         %li
           = link_to 'Home', root_path
         %li
           = link_to 'About', about_path
+        %li
+          = link_to "Cookies", cookies_path
