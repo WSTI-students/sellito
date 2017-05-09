@@ -11,8 +11,7 @@
           = link_to 'About', about_path
         %li
           = link_to "Cookies", cookies_path
-        - if current_user_is_admin
-          %li
-            = link_to 'Categories', categories_path
+        %li
+          = show_categories_for_admin
         %li
           = login_or_logout_link
