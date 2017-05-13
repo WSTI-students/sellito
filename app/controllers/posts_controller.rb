@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
-  before_action :fetch_post, only: %i(show edit update destroy)
+  before_action :fetch_post, only: %i[show edit update destroy]
 
   def index
-      @posts = Post.all.reverse
+    @posts = Post.all.reverse
   end
 
   def user_posts
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
   end
 
   def params_have_valid_post_user_id
-    post_params[:user_id]== current_user.id.to_s
+    post_params[:user_id] == current_user.id.to_s
   end
 
   def handle_post_validation_failed
@@ -58,5 +58,4 @@ class PostsController < ApplicationController
   def fetch_post
     @post = Post.find(params[:id])
   end
-
 end
