@@ -11,14 +11,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if @category.valid?
-      @category.save
-      flash[:notice] = 'Category created!'
-      redirect_to category_path(@category)
-    else
-      flash[:errors] = @category.errors.full_messages
-      redirect_back(fallback_location: root_path)
-    end
+    @category.valid? ? create_category : handle_category_validation_error
   end
 
   def show; end
@@ -37,6 +30,18 @@ class CategoriesController < ApplicationController
   end
 
   private
+
+  def create_category
+    @category.save
+    flash[:notice] = 'Category created!'
+    redirect_to category_path(@category)
+  end
+
+  def handle_category_validation_error
+    flash[:errors] = @category.errors.full_messages
+    redirect_back(fallback_location: root_path)
+  end
+
   def category_params
     params.require(:category).permit(:name)
   end
