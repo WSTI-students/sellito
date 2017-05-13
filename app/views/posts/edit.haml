@@ -1,5 +1,5 @@
 %h2
-  Edit category:
-  = @post.name
-  = link_to "Delete", @post, method: :delete, data: { confirm: "Ar ju śur?" }
+  Edit post:
+  = @post.title
 = render 'form'
+%p= button_to "Delete", @post, method: :delete, data: { confirm: "Ar ju śur?" }, class: 'btn btn-lg btn-warning'
