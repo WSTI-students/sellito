@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
-  before_action :fetch_post, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_post, only: %i(show edit update destroy)
 
   def index
-    if current_user
-      @posts = current_user.posts
-    else
-      @posts = Post.all
-    end
+      @posts = Post.all.reverse
+  end
+
+  def user_posts
+    @posts = current_user.posts
   end
 
   def new
@@ -18,7 +18,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     if @post.save
       flash[:notice] = 'Post created!'
-      redirect_to posts_path(@post)
+      redirect_to @post
     else
       flash[:alert] = 'Could not create post :('
       redirect_back(fallback_location: root_path)
