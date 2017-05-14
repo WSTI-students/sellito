@@ -1,3 +1,8 @@
-.row
+.row.clearfix
   .container
-    %h2 Welcome to Sellito!
+    %h2.text-center What are you looking for today?
+    .col-md-6.col-sm-offset-3
+      %input.form-control{placeholder: 'I am searching for...', type: 'text'}
+  .row.text-center
+    - @categories.each do |category|
+      = link_to category.name.capitalize, category
