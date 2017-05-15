@@ -2,6 +2,8 @@ class CategoriesController < ApplicationController
   #TODO: authorization with pundit gem
 
   before_action :fetch_category, only: %i[show edit update destroy]
+  before_action :authorize_category, only: %i[edit update destroy]
+
 
   def index
     @categories = Category.all
@@ -50,5 +52,9 @@ class CategoriesController < ApplicationController
 
   def fetch_category
     @category = Category.find(params[:id])
+  end
+
+  def authorize_category
+    authorize @category
   end
 end
