@@ -3,7 +3,9 @@ class CategoryPolicy < ApplicationPolicy
     :update if @user&.is_admin?
   end
 
-  def edit?
-    update?
+  alias_method :edit?, :update?
+
+  def destroy?
+    :destroy if @user&.is_admin?
   end
 end

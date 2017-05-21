@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
   #TODO: authorization with pundit gem
 
   before_action :fetch_category, only: %i[show edit update destroy]
-  #before_action :authorize_category, only: %i[edit update destroy]
+  before_action :authorize_category, only: %i[edit update destroy]
 
 
   def index
@@ -23,7 +23,6 @@ class CategoriesController < ApplicationController
   def edit; end
 
   def update
-    authorize_category
     if @category.update(category_params)
       redirect_to @category
     else
@@ -61,11 +60,11 @@ class CategoriesController < ApplicationController
   end
 
   def authorize_category
-    authorize @category
+    authorization_failed if authorize @category
   end
 
   def authorization_failed
     flash[:notice] = 'You are not an admin!'
-    redirect_to categories_path
+    redirect_to root_path
   end
 end
