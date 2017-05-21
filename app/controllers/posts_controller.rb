@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :fetch_post, only: %i[show edit update destroy]
+  before_action :authorize_post, only: %i[edit update destroy]
 
   def index
     @posts = Post.all.reverse
@@ -11,6 +12,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    authorize @post
   end
 
   def create
@@ -57,5 +59,9 @@ class PostsController < ApplicationController
 
   def fetch_post
     @post = Post.find(params[:id])
+  end
+
+  def authorize_post
+    authorize @post
   end
 end
