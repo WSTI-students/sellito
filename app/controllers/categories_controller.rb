@@ -58,7 +58,9 @@ class CategoriesController < ApplicationController
   end
 
   def authorize_category
-    authorization_failed unless authorize @category
+    authorize @category
+  rescue Pundit::NotAuthorizedError
+    authorization_failed
   end
 
   def authorization_failed
