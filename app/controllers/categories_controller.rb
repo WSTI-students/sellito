@@ -28,8 +28,6 @@ class CategoriesController < ApplicationController
     else
       render :edit
     end
-    #@category.update_attributes(category_params)
-    #redirect_to @category
   end
 
   def destroy
@@ -60,7 +58,7 @@ class CategoriesController < ApplicationController
   end
 
   def authorize_category
-    authorization_failed if authorize @category
+    authorization_failed unless authorize @category
   end
 
   def authorization_failed
