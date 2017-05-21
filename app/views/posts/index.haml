@@ -7,4 +7,4 @@
   - @posts.each do |post|
     %li
       = link_to post.title, post
-      = link_to "Edit", edit_post_path(post) if post_owner(post)
+      = link_to "Edit", edit_post_path(post) if post_owner_or_admin(post)
