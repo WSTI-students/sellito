@@ -11,22 +11,24 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
-    authorize @post
+    @post_form = PostForm.new
   end
 
   def create
     return unless params_have_valid_post_user_id
-    @post = Post.new(post_params)
-    @post.valid? ? create_post : handle_post_validation_failed
+    @post_form = PostForm.new(post_form_params)
+    @post_form.valid? ? create_post : handle_post_validation_failed
   end
 
   def show; end
 
-  def edit; end
+  def edit
+    @post_form = PostForm.new(@post)
+  end
 
   def update
-    @post.update_attributes(post_params)
+    @post_form = PostForm.new(post_form_params)
+    UpdatePost.new(form_data: @post_form, post: @post).call
     redirect_to @post
   end
 
@@ -39,22 +41,28 @@ class PostsController < ApplicationController
   private
 
   def create_post
-    @post.save
+    post = Post.create(
+      title: @post_form.title,
+      description: @post_form.description,
+      expiration_date: @post_form.expiration_date,
+      user_id: @post_form.user_id
+    )
+    AssignCategoryToPost.new(category_id: @post_form.category_id, post: post).call
     flash[:notice] = 'Post created!'
-    redirect_to @post
+    redirect_to post
   end
 
   def params_have_valid_post_user_id
-    post_params[:user_id] == current_user.id.to_s
+    post_form_params[:user_id] == current_user.id.to_s
   end
 
   def handle_post_validation_failed
-    flash[:errors] = @post.errors.full_messages
+    flash[:errors] = @post_form.errors.full_messages
     redirect_back(fallback_location: root_path)
   end
 
-  def post_params
-    params.require(:post).permit(:title, :description, :expiration_date, :user_id)
+  def post_form_params
+    params.require(:post_form).permit(:title, :description, :expiration_date, :category_id, :user_id)
   end
 
   def fetch_post

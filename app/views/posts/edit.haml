@@ -1,5 +1,20 @@
 %h2
   Edit post:
   = @post.title
-= render 'form'
+= form_for @post_form, url: post_path(@post), method: :patch do |f|
+  %p
+    = f.label :title
+    = f.text_field :title
+  %p
+    = f.label :description
+    = f.text_area :description
+  %p
+    = f.label :category
+    = f.select :category_id, Category.all.collect { |c| [ c.name, c.id ] }, include_blank: true
+  %p
+    = f.label :expiration_date
+    = f.date_field :expiration_date
+  = f.hidden_field :user_id, value: current_user.id
+  %p= f.submit 'Submit'
+
 %p= button_to "Delete", @post, method: :delete, data: { confirm: "Ar ju śur?" }, class: 'btn btn-lg btn-warning'

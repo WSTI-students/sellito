@@ -18,14 +18,14 @@ class PostPolicy
     user_is_owner_or_admin?
   end
 
+  def destroy?
+    user_is_owner_or_admin?
+  end
+
   private
 
   def user_is_owner_or_admin?
-    user_is_post_owner? || user_is_admin?
-  end
-
-  def user_is_admin?
-    user&.is_admin?
+    user_is_post_owner? || user.is_admin?
   end
 
   def user_is_post_owner?
