@@ -11,7 +11,7 @@
           = link_to 'About', about_path
         %li
           = link_to "Posts", posts_path
-        - if current_user
+        - if user_signed_in?
           %li.dropdown
             %a.dropdown-toggle{"data-toggle": "dropdown", type: "button"}
               Menu
